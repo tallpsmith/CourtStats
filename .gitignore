@@ -1,0 +1,21 @@
+# IDE
+.idea/
+
+# Claude Code local config
+.claude/
+
+# macOS
+.DS_Store
+*.swp
+*~
+
+# Build
+.build/
+DerivedData/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+
+# Swift Package Manager
+.swiftpm/
+Packages/
+Package.resolved
