@@ -225,7 +225,7 @@
 - [x] T058 [P] Create .github/workflows/test.yml — PR test workflow (macOS runner, swift test, xmllint DTD validation) in .github/workflows/test.yml
 - [x] T059 [P] Create .github/workflows/release.yml — tagged release workflow (universal binary build, GitHub Release asset) in .github/workflows/release.yml
 - [x] T060 [P] Add FCPXML DTD file to test fixtures for xmllint validation in Tests/IntegrationTests/Fixtures/
-- [ ] T061 Write DTD validation test (run xmllint on processor output) in Tests/IntegrationTests/PipelineTests.swift
+- [x] T061 Write DTD validation test (run xmllint on processor output) in Tests/IntegrationTests/PipelineTests.swift
 - [x] T062 Add --version flag support via ArgumentParser configuration in Sources/CLI/CourtStats.swift
 - [x] T063 Run full test suite and verify all tests pass: `swift test -v`
 - [x] T064 Run quickstart.md validation — verify documented commands work
