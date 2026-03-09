@@ -19,6 +19,7 @@ public struct FCPXMLWriter {
         insertTitles(titles, into: document)
         ensureEffectResource(in: document, effectRef: effectRef, effectName: effectName)
         applyMarkerAnnotations(markerAnnotations, to: document)
+        document.isStandalone = false
         return document.xmlData(options: [.nodePrettyPrint])
     }
 

@@ -68,7 +68,7 @@
     tcFormat CDATA #IMPLIED
 >
 
-<!ELEMENT spine (asset-clip | clip)*>
+<!ELEMENT spine (asset-clip | clip | title)*>
 
 <!-- Asset-clip: a clip referencing an asset in resources -->
 <!ELEMENT asset-clip (marker | title | clip)*>

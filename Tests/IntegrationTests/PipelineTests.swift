@@ -1,4 +1,5 @@
 import XCTest
+import Foundation
 @testable import CourtStatsCore
 
 final class PipelineTests: XCTestCase {
@@ -125,5 +126,43 @@ final class PipelineTests: XCTestCase {
 
         let result = try pipeline.process(inputData)
         XCTAssertGreaterThan(result.overlaysGenerated, 0, "Scoring without SUBON still produces overlays")
+    }
+
+    // MARK: - T061: DTD validation
+
+    func testProcessorOutputPassesDTDValidation() throws {
+        let inputData = try loadFixture("basic-scoring.fcpxml")
+        let pipeline = ProcessingPipeline(configuration: .init(
+            homeName: "Wildcats",
+            awayName: "Eagles"
+        ))
+
+        let result = try pipeline.process(inputData)
+
+        let tempDir = FileManager.default.temporaryDirectory
+        let outputURL = tempDir.appendingPathComponent("dtd-validation-test.fcpxml")
+        try result.outputData.write(to: outputURL)
+        defer { try? FileManager.default.removeItem(at: outputURL) }
+
+        guard let dtdURL = Bundle.module.url(forResource: "FCPXMLv1_11", withExtension: "dtd", subdirectory: "Fixtures") else {
+            XCTFail("Missing DTD fixture")
+            return
+        }
+
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/xmllint")
+        process.arguments = ["--noout", "--dtdvalid", dtdURL.path, outputURL.path]
+
+        let stderrPipe = Pipe()
+        process.standardError = stderrPipe
+
+        try process.run()
+        process.waitUntilExit()
+
+        let stderrData = stderrPipe.fileHandleForReading.readDataToEndOfFile()
+        let stderrOutput = String(data: stderrData, encoding: .utf8) ?? ""
+
+        XCTAssertEqual(process.terminationStatus, 0,
+                       "xmllint DTD validation failed:\n\(stderrOutput)")
     }
 }
