@@ -1,0 +1,130 @@
+<!--
+  Minimal FCPXML v1.11 DTD for integration-test validation.
+  Covers the elements CourtStats reads and writes.
+  Intentionally permissive — uses ANY/mixed content where the
+  real DTD would be stricter, so generated FCPXML passes xmllint
+  without requiring every optional child element.
+-->
+
+<!-- Root element -->
+<!ELEMENT fcpxml (resources?, library?)>
+<!ATTLIST fcpxml
+    version CDATA #IMPLIED
+>
+
+<!-- Resources: container for reusable definitions -->
+<!ELEMENT resources (effect | format | asset)*>
+
+<!ELEMENT effect EMPTY>
+<!ATTLIST effect
+    id    ID    #REQUIRED
+    name  CDATA #IMPLIED
+    uid   CDATA #IMPLIED
+>
+
+<!ELEMENT format EMPTY>
+<!ATTLIST format
+    id            ID    #REQUIRED
+    name          CDATA #IMPLIED
+    width         CDATA #IMPLIED
+    height        CDATA #IMPLIED
+    frameDuration CDATA #IMPLIED
+>
+
+<!ELEMENT asset EMPTY>
+<!ATTLIST asset
+    id       ID    #REQUIRED
+    name     CDATA #IMPLIED
+    src      CDATA #IMPLIED
+    start    CDATA #IMPLIED
+    duration CDATA #IMPLIED
+    hasVideo CDATA #IMPLIED
+    hasAudio CDATA #IMPLIED
+    format   IDREF #IMPLIED
+>
+
+<!-- Library / Event / Project hierarchy -->
+<!ELEMENT library (event*)>
+<!ATTLIST library
+    location CDATA #IMPLIED
+>
+
+<!ELEMENT event (project*)>
+<!ATTLIST event
+    name CDATA #IMPLIED
+>
+
+<!ELEMENT project (sequence?)>
+<!ATTLIST project
+    name CDATA #IMPLIED
+>
+
+<!-- Sequence and spine: the timeline structure -->
+<!ELEMENT sequence (spine?)>
+<!ATTLIST sequence
+    format   IDREF #IMPLIED
+    duration CDATA #IMPLIED
+    tcStart  CDATA #IMPLIED
+    tcFormat CDATA #IMPLIED
+>
+
+<!ELEMENT spine (asset-clip | clip)*>
+
+<!-- Asset-clip: a clip referencing an asset in resources -->
+<!ELEMENT asset-clip (marker | title | clip)*>
+<!ATTLIST asset-clip
+    ref      IDREF #IMPLIED
+    offset   CDATA #IMPLIED
+    name     CDATA #IMPLIED
+    start    CDATA #IMPLIED
+    duration CDATA #IMPLIED
+    format   IDREF #IMPLIED
+    tcFormat CDATA #IMPLIED
+    lane     CDATA #IMPLIED
+>
+
+<!-- Clip: inline or compound clip -->
+<!ELEMENT clip (marker | title | clip)*>
+<!ATTLIST clip
+    ref      IDREF #IMPLIED
+    offset   CDATA #IMPLIED
+    name     CDATA #IMPLIED
+    start    CDATA #IMPLIED
+    duration CDATA #IMPLIED
+    format   IDREF #IMPLIED
+    tcFormat CDATA #IMPLIED
+    lane     CDATA #IMPLIED
+>
+
+<!-- Marker: the bread and butter of CourtStats event capture -->
+<!ELEMENT marker EMPTY>
+<!ATTLIST marker
+    start    CDATA #IMPLIED
+    duration CDATA #IMPLIED
+    value    CDATA #IMPLIED
+>
+
+<!-- Title overlay elements -->
+<!ELEMENT title (text | param)*>
+<!ATTLIST title
+    ref      IDREF #IMPLIED
+    offset   CDATA #IMPLIED
+    name     CDATA #IMPLIED
+    duration CDATA #IMPLIED
+    start    CDATA #IMPLIED
+    lane     CDATA #IMPLIED
+>
+
+<!ELEMENT text (text-style)*>
+
+<!ELEMENT text-style (#PCDATA)>
+<!ATTLIST text-style
+    ref CDATA #IMPLIED
+>
+
+<!ELEMENT param EMPTY>
+<!ATTLIST param
+    name  CDATA #IMPLIED
+    key   CDATA #IMPLIED
+    value CDATA #IMPLIED
+>
