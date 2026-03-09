@@ -1,0 +1,28 @@
+# Build a universal macOS binary and publish a GitHub Release
+# when a version tag (v*) is pushed.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build universal binary
+        run: swift build -c release --arch x86_64 --arch arm64
+
+      - name: Copy binary
+        run: |
+          BUILD_PATH=$(swift build -c release --arch x86_64 --arch arm64 --show-bin-path)
+          cp "$BUILD_PATH/courtstats" courtstats-macos
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: courtstats-macos

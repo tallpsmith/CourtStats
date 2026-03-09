@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE fcpxml>
+<fcpxml version="1.11">
+    <resources>
+        <format id="r1" name="FFVideoFormat1080p30" frameDuration="100/3000s" width="1920" height="1080"/>
+        <asset id="r2" name="Game Footage" src="file:///game.mov" start="0s" duration="3600s" hasVideo="1" hasAudio="1" format="r1"/>
+    </resources>
+    <library>
+        <event name="Game Day">
+            <project name="Game Edit">
+                <sequence format="r1" duration="3600s" tcStart="0s" tcFormat="NDF">
+                    <spine>
+                        <asset-clip ref="r2" offset="0s" name="Game Footage" start="0s" duration="3600s" format="r1" tcFormat="NDF">
+                            <marker start="90s" duration="1s" value="CS:T:7:PTS2"/>
+                            <marker start="165s" duration="1s" value="CS:X:12:PTS3"/>
+                            <marker start="240s" duration="1s" value="CS:T:ABC:FT"/>
+                            <marker start="300s" duration="1s" value="CS:T:7"/>
+                            <marker start="400s" duration="1s" value="CS:T:7:DUNK"/>
+                        </asset-clip>
+                    </spine>
+                </sequence>
+            </project>
+        </event>
+    </library>
+</fcpxml>
